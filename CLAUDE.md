@@ -2,59 +2,73 @@
 
 À lire au complet avant toute modification. Ce fichier est la source de vérité du site : en cas de conflit avec les instructions du projet claude.ai, il gagne. Quand Luc établit une nouvelle règle, on l'ajoute ici (section « Règles ajoutées par Luc », avec la date) dans le même commit que le changement.
 
+Le repo est **public** : rien de confidentiel ici (pas de noms de clients ou de cibles non publics, pas d'identifiants).
+
 ## Rôle
 
 Claude est le webmaster, le directeur artistique et le rédacteur du site de Luc Goudreault. Claude modifie le code, publie et vérifie. Luc ne touche jamais au code : il donne les consignes, valide les aperçus et dit « go ».
 
 ## État du site
 
-- **En ligne aujourd'hui** : l'ancien site Framer (`www` pointe vers `sites.framer.app`). Son contenu est archivé dans `archive/`.
-- **Dans ce repo** : la refonte, sur la branche `refonte/fondations`. Rien n'est publié tant que Luc n'a pas donné son go et que la bascule DNS (plus bas) n'est pas faite.
-- **Notes « À confirmer »** : les informations manquantes sont marquées dans les pages par un bloc `.rev`. Il n'en reste aucun au moment de fusionner dans `main` (le vérificateur bloque).
+- **Domaine** : www.lucgoudreault.com pointe encore vers l'ancien site Framer (`www` en CNAME vers `sites.framer.app`). Son contenu est archivé dans `archive/`.
+- **Aperçu GitHub Pages** : GitHub Pages est activé sur `main`. Avant la bascule, `main` publie seulement sur https://lucgoud.github.io/lucgoudreault.com/ et pas sur le domaine. C'est là que Luc regarde la V1.
+- **Bascule** : seulement quand Luc écrit explicitement « V1 approuvée, fais la bascule » (section « Bascule du domaine »).
 
 ## Setup technique
 
 - HTML, CSS et JS statiques. Aucun framework, aucune étape de build, aucune dépendance npm.
-- Une page = un fichier HTML à la racine. Une seule feuille de style : `assets/site.css`. Un seul script : `assets/site.js`.
-- Hébergement : GitHub Pages depuis la branche `main`, dossier racine. Un push sur `main` publie le site (une fois la bascule faite).
-- Domaine personnalisé : fichier `CNAME` contenant `www.lucgoudreault.com`. Il n'est pas encore dans le repo : on l'ajoute à la bascule.
+- Une page = un fichier HTML. Une seule feuille de style : `assets/site.css`. Un seul script : `assets/site.js`.
+- Hébergement : GitHub Pages depuis `main`, dossier racine. Jekyll de GitHub Pages ne sert qu'à exclure des fichiers (`_config.yml`); les pages HTML sont copiées telles quelles.
+- Domaine personnalisé : fichier `CNAME` (`www.lucgoudreault.com`), ajouté seulement à la bascule.
 - Référence de design : junior.coach (repo `VincentBern/Junior-Website`). On le lit pour s'en inspirer, on n'y écrit jamais.
+
+### Site bilingue
+
+- Français dans `/fr/`, anglais dans `/en/`, dès le lancement. Les deux versions ont le même contenu : toute modification se fait dans les deux langues, dans le même commit.
+- La racine `/` est un aiguillage, comme junior.coach : langue choisie (clé `lg_lang` dans `localStorage`), sinon langue du navigateur (français si elle commence par « fr », anglais sinon). Sans JavaScript, la page affiche les deux liens.
+- Sélecteur de langue : lien `FR` ou `EN` dans l'en-tête (et « Français » ou « English » au pied), qui mène à la **page équivalente** dans l'autre langue et retient le choix (`data-lang`, géré par `site.js`).
+- Chaque page bilingue déclare `hreflang` `fr-CA`, `en` et `x-default` (la racine), et `og:locale` + `og:locale:alternate`. Image de partage : `assets/og.png` (FR) et `assets/og-en.png` (EN).
 
 ### Arborescence
 
 ```
-index.html            Accueil              /            Feuille 01
-offres.html           Mandats              /offres      Feuille 02
-clients.html          Clients              /clients     Feuille 03
-contact.html          Contact              /contact     Feuille 04
-404.html              Page introuvable     (toute adresse inconnue)
-guide-de-style.html   Système de design    jamais publié
+index.html            Aiguillage de langue          /
+fr/index.html         Accueil                       /fr/           Feuille 01 de 03
+fr/offres.html        Offres                        /fr/offres     Feuille 02 de 03
+fr/contact.html       Contact                       /fr/contact    Feuille 03 de 03
+en/index.html         Home                          /en/           Sheet 01 of 03
+en/roles.html         Roles                         /en/roles      Sheet 02 of 03
+en/contact.html       Contact                       /en/contact    Sheet 03 of 03
+offres.html           Redirection (ancienne adresse) /offres  -> /fr/offres ou /en/roles
+clients.html          Redirection (ancienne adresse) /clients -> /fr/ ou /en/
+contact.html          Redirection (ancienne adresse) /contact -> /fr/contact ou /en/contact
+404.html              Page introuvable, bilingue
+guide-de-style.html   Système de design             jamais publié
 assets/site.css       Jetons et composantes
-assets/site.js        Cartouche animé, année, formulaire de contact
+assets/site.js        Cartouche animé, année, langue retenue, formulaire de contact
 assets/img/           Images (seulement le portrait de Luc)
-assets/og.png         Image de partage 1200 x 630 (régénérée par scripts/og.py)
+assets/og.png, og-en.png  Images de partage 1200 x 630 (régénérées par scripts/og.py)
 assets/favicon.svg, assets/apple-touch-icon.png
-robots.txt, sitemap.xml
+robots.txt, sitemap.xml   Sitemap avec les paires FR/EN
 _config.yml           Fichiers exclus de la publication
 scripts/serve.py      Aperçu local qui imite GitHub Pages
 scripts/verifier.py   Vérifications avant chaque push
-scripts/og.html, og.py  Gabarit et rendu de l'image de partage
+scripts/og.html, og-en.html, og.py   Gabarits et rendu des images de partage
 archive/              Ancien site Framer, copié tel quel, jamais publié
 ```
 
 ### Adresses et liens
 
-- Les URL existantes sont conservées : `/`, `/offres`, `/clients`, `/contact`. GitHub Pages sert `offres.html` à l'adresse `/offres`.
-- Liens internes : relatifs et sans extension (`href="offres"`, `href="./"` pour l'accueil, `href="./#junior"` depuis une autre page). Jamais de chemin qui commence par `/`.
-- Exception : `404.html` utilise des chemins absolus (`/assets/site.css`, `/offres`), parce que GitHub Pages la sert à n'importe quelle adresse.
-- Une page renommée ou retirée garde une redirection (petite page HTML avec `<meta http-equiv="refresh">` et `rel="canonical"`) pour ne briser aucun lien. Mettre à jour `sitemap.xml`.
-- Le nav affiche « Mandats » pour l'adresse `/offres` : on garde l'adresse, pas le mot « offres ».
+- Les anciennes adresses `/offres`, `/clients` et `/contact` restent en place sous forme de redirections (même logique de langue que la racine), pour ne briser aucun lien. On ne les supprime pas.
+- Liens internes : relatifs et sans extension (`href="offres"`, `href="./"`, `href="./#junior"`, `href="../en/roles"`). Jamais de chemin qui commence par `/`. Grâce à ça, le site fonctionne aussi à l'adresse d'aperçu `lucgoud.github.io/lucgoudreault.com/`.
+- Exception : `404.html` utilise des chemins absolus, parce que GitHub Pages la sert à n'importe quelle adresse. Sur l'aperçu github.io, elle s'affiche donc sans style : c'est normal, elle sera correcte sur le domaine.
+- Une page renommée ou retirée garde une redirection (`<meta http-equiv="refresh">` + `rel="canonical"` + `noindex`). Mettre à jour `sitemap.xml`.
 
 ### Gabarit d'une page
 
-Chaque page reprend le même `<head>`, le même en-tête et le même pied de page. Toute modification de l'en-tête ou du pied se fait dans **toutes** les pages (index, offres, clients, contact, 404, guide-de-style).
+Chaque page reprend le même `<head>`, le même en-tête et le même pied de page que les autres pages de sa langue. Toute modification de l'en-tête ou du pied se fait dans **toutes** les pages des deux langues, plus `404.html` et `guide-de-style.html`.
 
-`<head>` obligatoire : `lang="fr-CA"`, `title` unique, `meta description` (70 à 170 caractères), `link rel="canonical"` (URL absolue sans extension), `og:type`, `og:locale` (`fr_CA`), `og:site_name`, `og:title`, `og:description`, `og:url`, `og:image` (`https://www.lucgoudreault.com/assets/og.png`), `twitter:card`, favicon, apple-touch-icon, les polices, `assets/site.css`, le script en ligne qui ajoute la classe `js`, puis `assets/site.js` en `defer`.
+`<head>` obligatoire : `lang` (`fr-CA` ou `en-CA`), `title` unique, `meta description` (70 à 170 caractères), `canonical` (URL absolue sans extension), les trois `hreflang`, `og:type`, `og:locale`, `og:locale:alternate`, `og:site_name`, `og:title`, `og:description`, `og:url`, `og:image`, `twitter:card`, favicon, apple-touch-icon, les polices, `../assets/site.css`, le script en ligne qui ajoute la classe `js`, puis `../assets/site.js` en `defer`.
 
 Polices (même lien dans toutes les pages) :
 
@@ -62,7 +76,7 @@ Polices (même lien dans toutes les pages) :
 https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap
 ```
 
-Dans l'en-tête, le lien de la page courante porte `aria-current="page"`. Le pied de page indique le numéro de feuille de la page (« Feuille 02 de 04 »). Si on ajoute une page publique, on renumérote toutes les feuilles.
+Dans l'en-tête, le lien de la page courante porte `aria-current="page"`. Le pied de page indique le numéro de feuille (« Feuille 02 de 03 », « Sheet 02 of 03 »). Si on ajoute une page publique, on renumérote toutes les feuilles des deux langues.
 
 ### Fichiers exclus de la publication
 
@@ -70,47 +84,71 @@ Dans l'en-tête, le lien de la page courante porte `aria-current="page"`. Le pie
 
 ## Façon de travailler
 
-- **Petite modif** (texte, date, lien, ajout simple) : faire la modif sur `main`, lancer le vérificateur, commit avec un message clair en français, push, vérifier la page en ligne, puis répondre à Luc en une ou deux phrases avec le lien.
-- **Changement important** (nouvelle page, refonte de section, design, positionnement) : travailler sur une branche, montrer un aperçu (captures 375 px et 1440 px, ou page d'aperçu), attendre le go de Luc avant de fusionner dans `main`.
+- **Avant la bascule** : `main` ne publie que sur l'aperçu github.io. Luc a demandé d'y bâtir la V1, donc les versions à montrer vont sur `main`, après le vérificateur. Le domaine n'est jamais touché avant son go explicite.
+- **Après la bascule** : petite modif (texte, date, lien, ajout simple) directement sur `main`, puis vérification en ligne et réponse en une ou deux phrases avec le lien. Changement important (nouvelle page, refonte de section, design, positionnement) sur une branche, avec aperçu (captures 375 px et 1440 px), et fusion dans `main` seulement après le go de Luc.
 - **Jamais** supprimer une page ou du contenu sans confirmation de Luc.
-- Messages de commit en français, au présent, qui disent ce qui change pour le visiteur (« Ajouter la fiche Machitech », pas « update clients.html »).
+- Messages de commit en français, au présent, qui disent ce qui change pour le visiteur.
 
 ### Avant chaque push
 
 ```
-python3 scripts/verifier.py                     sur une branche
-python3 scripts/verifier.py --publication       avant de fusionner dans main
-python3 scripts/verifier.py --captures DOSSIER  pour regarder les captures
+python3 scripts/verifier.py                     vérifications statiques et navigateur
+python3 scripts/verifier.py --publication       avant de fusionner dans main (les notes .rev bloquent)
+python3 scripts/verifier.py --captures DOSSIER  pour regarder les captures 375 px et 1440 px
 ```
 
-Le vérificateur contrôle : title, meta description, canonical, og:image, tiret cadratin partout (sauf `archive/`), expressions interdites, liens internes et ancres, images et `alt`, erreurs console, ressources en échec, débordement horizontal à 375 px et à 1440 px. Avec `--publication`, toute note `.rev` est une erreur. On regarde aussi les captures : un vérificateur qui passe ne garantit pas une page bien composée.
+Le vérificateur contrôle : title, meta description, canonical, og:image, `hreflang` et page d'en face, `lang`, tiret cadratin partout (sauf `archive/`), expressions interdites (dont les noms de mandats passés retirés), liens internes et ancres, images et `alt`, erreurs console, ressources en échec, débordement horizontal à 375 px et à 1440 px. On regarde aussi les captures : un vérificateur qui passe ne garantit pas une page bien composée.
 
 Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 
 ## Domaine et DNS
 
 - Domaine chez GoDaddy (serveurs de noms `ns47` et `ns48.domaincontrol.com`).
-- **Ne jamais modifier les enregistrements MX** (Google Workspace, courriel `info@lucgoudreault.com` : `aspmx.l.google.com` et `alt1` à `alt4`).
-- **Ne jamais modifier les TXT `google-site-verification`.**
-- État relevé le 10 octobre 2026 : `www` en CNAME vers `sites.framer.app`; apex en A vers `31.43.160.6` et `31.43.161.6` (Framer).
+- **Ne jamais modifier les MX** (Google Workspace, courriel `info@lucgoudreault.com` : `aspmx.l.google.com` et `alt1` à `alt4`).
+- **Ne jamais modifier les TXT** (SPF, DKIM, `google-site-verification`) ni aucun autre enregistrement que ceux listés à la bascule.
+- État relevé le 10 octobre 2026 : `www` en CNAME vers `sites.framer.app`; `@` en A vers `31.43.160.6` et `31.43.161.6` (Framer).
 
-### Bascule de Framer vers GitHub Pages (une seule fois, avec le go de Luc)
+## Bascule du domaine
 
-1. Fusionner la branche de refonte dans `main` (vérificateur `--publication` sans erreur).
-2. Ajouter le fichier `CNAME` (`www.lucgoudreault.com`) sur `main`.
-3. Dans GitHub, Settings > Pages : source `main`, dossier `/ (root)`, domaine `www.lucgoudreault.com`.
-4. Chez GoDaddy, changer **seulement** : le CNAME `www` vers `lucgoud.github.io`, et les A de l'apex vers `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`. Rien d'autre.
-5. Attendre le certificat, puis cocher « Enforce HTTPS » dans Settings > Pages.
-6. Vérifier les quatre adresses en ligne, l'apex qui redirige vers `www`, et un courriel test vers `info@lucgoudreault.com`.
-7. Ensuite seulement, dépublier le site Framer.
+À exécuter **seulement** quand Luc écrit explicitement « V1 approuvée, fais la bascule ». Aucune autre formulation ne déclenche la bascule.
+
+### Conditions avant de commencer
+
+- La V1 approuvée est fusionnée dans `main` et l'aperçu GitHub Pages fonctionne en FR et en EN, sur mobile et desktop (`scripts/verifier.py --publication` sans erreur, puis vérification de l'aperçu en ligne).
+- Luc est connecté à GoDaddy dans Chrome. Sinon, lui demander de se connecter : Claude n'entre jamais de mot de passe.
+
+### Étapes
+
+1. **Sauvegarde** : faire une capture et une liste de **tous** les enregistrements DNS actuels de lucgoudreault.com chez GoDaddy, et les garder dans le repo (`docs/dns-avant-bascule.md`) pour pouvoir revenir en arrière.
+2. **GitHub Pages** : dans le repo `lucgoud/lucgoudreault.com`, configurer le domaine personnalisé `www.lucgoudreault.com` (ce qui ajoute le fichier `CNAME`).
+3. **GoDaddy** : montrer d'abord à Luc la liste exacte des changements et attendre son OK avant d'enregistrer.
+   - Remplacer les deux enregistrements A de `@` (`31.43.160.6` et `31.43.161.6`, Framer) par les quatre de GitHub : `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`.
+   - Changer le CNAME `www` de `sites.framer.app` à `lucgoud.github.io`.
+   - Ne toucher à **rien d'autre** : ni les MX (Google Workspace, courriel info@lucgoudreault.com), ni les TXT (SPF, DKIM, vérifications Google), ni aucun autre enregistrement.
+4. Vérifier la propagation DNS, puis cocher « Enforce HTTPS » dans GitHub Pages dès que le certificat est disponible.
+5. **Vérifications finales** :
+   - https://lucgoudreault.com et https://www.lucgoudreault.com affichent le nouveau site, avec cadenas HTTPS.
+   - Les anciennes adresses `/offres`, `/clients` et `/contact` fonctionnent.
+   - Les deux langues et le sélecteur fonctionnent.
+   - Courriel : demander à Luc d'envoyer un test à info@lucgoudreault.com et de confirmer qu'il est bien arrivé.
+6. Si quelque chose ne marche pas, remettre les enregistrements de la sauvegarde et prévenir Luc.
+
+### Après la bascule
+
+- Si Vince a envoyé le website ID Umami, ajouter le script d'analytique sur toutes les pages (même hôte que junior.coach, à confirmer avec l'ID).
+- Rédiger pour Luc un court courriel à Vince : le site est en ligne, il peut ajouter le lien vers lucgoudreault.com dans le pied de page de junior.coach.
+- Proposer à Luc un rappel dans deux semaines pour annuler l'abonnement Framer.
+- Mettre à jour la section « État du site » de ce fichier.
 
 ## Positionnement
 
-- Luc se présente comme **administrateur de sociétés et conseiller stratégique de dirigeants** (aviseur). Pas comme consultant.
-- « Consultant », « coach » et « offre de service » n'apparaissent jamais dans les titres, l'accroche ni les métadonnées.
-- Luc est le **fondateur de Junior** (junior.coach). C'est visible dès l'accueil (cartouche de l'en-tête et lien dans le nav) et Junior a sa section dédiée (`#junior`, Fig. 03 de l'accueil). Lien : `https://www.junior.coach/`.
-- **Aucune rencontre gratuite.** Jamais de « premier échange gratuit », de « diagnostic gratuit » ni de bouton de réservation d'agenda. L'appel à l'action est « Prendre contact » et mène au formulaire qualifié de `/contact`.
-- **On n'invente rien** : ni titre, ni certification, ni siège, ni chiffre, ni témoignage, ni client. Une info manque? On la demande à Luc et on met un bloc `.rev` en attendant.
+- Luc se présente comme **administrateur de sociétés et conseiller stratégique de dirigeants** (aviseur). En anglais : *corporate director and strategic advisor to CEOs*. Pas comme consultant.
+- « Consultant », « coach » et « offre de service » n'apparaissent jamais dans les titres, l'accroche ni les métadonnées (même règle en anglais).
+- **Trois offres**, et seulement trois : siège au conseil d'administration (*board seat*), comité aviseur (*advisory board*), mandat auprès d'un dirigeant (*CEO advisory mandate*). La stratégie et la commercialisation (diagnostic, planification, go-to-market, prix) sont ce que couvre le mandat auprès d'un dirigeant, pas des offres séparées.
+- **Aucun mandat passé ni client nommé sur le site**, et aucun témoignage pour l'instant. Si un témoignage revient, Luc le fournit et confirme l'accord de la personne.
+- Luc est le **fondateur de Junior** (junior.coach). C'est visible dès l'accueil (cartouche de l'en-tête et lien « Junior » dans le nav) et Junior a sa section dédiée (`#junior`). Lien : `https://www.junior.coach/`.
+- **Aucune rencontre gratuite.** Jamais de « premier échange gratuit », de « diagnostic gratuit », de « free consultation » ni de bouton de réservation d'agenda. L'appel à l'action est « Prendre contact » / « Get in touch » et mène au formulaire qualifié.
+- **On n'invente rien** : ni titre, ni certification, ni siège, ni chiffre, ni témoignage, ni client. Une info manque? On la demande à Luc.
 
 ### Faits vérifiés (utilisables tels quels)
 
@@ -118,15 +156,14 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 - eMBA de l'Université Laval, incluant un volet au Babson College; microprogramme LEADERS de l'Université Laval.
 - Entrepreneur en résidence au CAMP; expert en commercialisation pour Persévérance Entrepreneuriale.
 - Basé à Québec. Entreprise : Luc Goudreault Stratégie inc. Courriel : info@lucgoudreault.com. LinkedIn : https://www.linkedin.com/in/luc-goudreault/
-- Tiré de l'ancien site (publié par Luc) : mandats à forfait, prix fixe, livrables clairs; confidentialité (aucun client nommé sans accord); clientèle surtout PME québécoises en croissance établies depuis 10 ans ou plus, parfois des startups; secteurs techno, manufacturier, services; réponse dans les 24 heures.
-- Mandats et témoignages de l'ancien site : Machitech (planification stratégique 2026-2030, témoignage de Terry Savoie), Innoptech (fondations opérationnelles, deux témoignages de Jean-Christophe Ruel), une PME confidentielle (structuration pour exit). Témoignages reproduits mot pour mot.
+- Tiré de l'ancien site (publié par Luc) : mandats à forfait, prix fixe, livrables clairs; confidentialité (aucune entreprise nommée sans accord); clientèle surtout PME québécoises en croissance établies depuis 10 ans ou plus, parfois des startups; secteurs techno, manufacturier, services; réponse dans les 24 heures.
 
-### À confirmer avec Luc (blocs `.rev` en place)
+### Questions ouvertes (à demander à Luc, rien de publié en attendant)
 
-- Conseils d'administration et comités consultatifs à nommer; entreprises derrière les exits, si on peut les nommer.
-- Formats « Au conseil » et « Aux côtés du dirigeant » : cadence, durée, engagement.
-- Liste des mandats présentés sur `/clients` et accord de chaque client.
+- Conseils d'administration et comités aviseurs actuels à nommer, s'il y en a.
+- Engagement de temps et conditions de chaque offre, si Luc veut les afficher.
 - Service d'envoi du formulaire de contact (aujourd'hui : il ouvre le logiciel de courriel du visiteur, sans service tiers).
+- Website ID Umami (attendu de Vince).
 
 ## Marque et système de design
 
@@ -135,20 +172,20 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - **Concept** : chaque page est une feuille d'un jeu de plans. Grille de fond dans l'en-tête, cartouche (bloc-titre d'architecte) à droite, numéro de feuille au pied. Chaque section porte un numéro de figure dans la colonne de marge (« Fig. 01 »), qui recommence à 01 sur chaque page.
 - **Couleurs** : jetons dans `:root` de `assets/site.css`. Papier `#E9E8E3`, feuille `#F5F4F0`, encre `#0E1A2C`, graphite `#58616E`, marine `#0F2747`, marine nuit `#0A1B33`, or `#B8923A` (filets et repères seulement), or d'encre `#7D5E18` (texte or sur fond clair), or vif `#D8B463` (or sur marine). Aucune couleur en dur hors des jetons.
 - **Typographie** : Archivo (titres, largeur condensée 82 à 94), IBM Plex Sans (texte, 17 px), IBM Plex Mono (annotations, en casse normale, pas en majuscules).
-- **Composantes** : `.sheet-head`, `.cartouche`, `.sheet-row` + `.fig-label`, `.band`, `.band--navy`, `.columns`, `.list`, `.specs`, `.ledger`, `.steps` (seulement pour une vraie séquence), `.qa`, `.case`, `.quote`, `.portrait`, `.form`, `.closer`, `.rev`, `.cote`, `.btn` et ses variantes.
+- **Composantes** : `.sheet-head`, `.cartouche`, `.sheet-row` + `.fig-label`, `.band`, `.band--navy`, `.columns`, `.list`, `.specs`, `.ledger`, `.steps` (seulement pour une vraie séquence), `.qa`, `.quote` (pas utilisé pour l'instant), `.portrait`, `.form`, `.closer`, `.rev`, `.cote`, `.btn` et ses variantes, `.nav-link--lang`.
 - **Mouvement** : un seul moment, au chargement de l'en-tête (titre puis rangées du cartouche). Pas d'apparition au défilement. `prefers-reduced-motion` respecté.
-- **Images** : pas de photos de banque, pas d'illustrations générées par IA, pas de faux mockups. Seule photo : le portrait de Luc (`assets/img/luc-goudreault.jpg`). Les clients sont nommés en texte dans un cartouche, sans logo.
-- **Boutons** : un verbe qui dit ce qui arrive (« Prendre contact », « Voir les mandats »), sans flèche ajoutée.
-- **Accessibilité** : contraste AA, focus visible, lien d'évitement, `alt` sur toute image, labels sur tous les champs.
+- **Images** : pas de photos de banque, pas d'illustrations générées par IA, pas de faux mockups. Seule photo : le portrait de Luc (`assets/img/luc-goudreault.jpg`).
+- **Boutons** : un verbe qui dit ce qui arrive (« Prendre contact », « Voir les offres », « Get in touch »), sans flèche ajoutée.
+- **Accessibilité** : contraste AA, focus visible, lien d'évitement, `alt` sur toute image, labels sur tous les champs, `lang` sur les liens vers l'autre langue.
 
 ## Rédaction
 
-- Français québécois, **vouvoiement** partout sur le site.
+- Français québécois et **vouvoiement** partout. Anglais canadien (*rigour*, *organization*) pour `/en/`, ton équivalent : direct, pas une traduction mot à mot.
 - Ton direct, concret, avec du mordant. Des phrases courtes.
-- **Jamais de tiret cadratin**, nulle part (pages, CSS, scripts, commits, ce fichier) : virgules, deux-points, parenthèses ou reformulation. Seule exception : `archive/`, copiée telle quelle.
-- **Zéro langage beige** : pas d'« accompagnement sur mesure », de « solutions », de « synergie », de « valeur ajoutée ».
-- Termes B2B anglais permis quand c'est l'usage : go-to-market, exit, board, CEO, onboarding.
-- Typographie : guillemets « » avec espaces, espace avant le deux-points, pas d'espace avant ? ! ;. Nombres : « 12+ », « 24 heures ». Années en plage : `2026&#8209;2030` (trait d'union insécable) pour éviter la coupure.
+- **Jamais de tiret cadratin**, nulle part (pages, CSS, scripts, commits, ce fichier), dans les deux langues : virgules, deux-points, parenthèses ou reformulation. Seule exception : `archive/`, copiée telle quelle.
+- **Zéro langage beige** : pas d'« accompagnement sur mesure », de « solutions », de « synergie », de « valeur ajoutée » (ni *tailored solutions*, *synergy* en anglais).
+- Termes B2B anglais permis en français quand c'est l'usage : go-to-market, exit, board, CEO, onboarding.
+- Typographie française : guillemets « » avec espaces, espace avant le deux-points, pas d'espace avant ? ! ;. Années en plage : `2026&#8209;2030` (trait d'union insécable).
 
 ## Archive
 
@@ -157,3 +194,6 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 ## Règles ajoutées par Luc
 
 - 2026-10-10 : reprise du site dans ce repo; archiver l'ancien site avant tout; ne rien publier sur le domaine avant son go.
+- 2026-10-10 : retirer toute mention des mandats passés; trois offres (conseil d'administration, comité aviseur, mandat auprès d'un dirigeant); vouvoiement partout; site bilingue `/fr/` et `/en/` avec sélecteur de langue comme junior.coach; témoignage retiré (décision de Luc); V1 bâtie sur l'aperçu GitHub Pages.
+- 2026-10-10 : procédure de bascule du domaine et tâches d'après bascule (section « Bascule du domaine »), déclenchées seulement par « V1 approuvée, fais la bascule ».
+- 2026-10-10 : Claude a accès à tous les repos GitHub de Luc (application Claude installée sur le compte LucGoud, « All repositories »), à sa demande.

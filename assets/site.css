@@ -164,6 +164,8 @@ strong,b{font-weight:600}
 .nav-link:hover{color:var(--ink)}
 .nav-link[aria-current="page"]{color:var(--ink);border-bottom-color:var(--gold)}
 .nav-link--contact{display:none}
+.nav-link--lang{padding-left:1.25rem;border-left:1px solid var(--line);color:var(--ink);letter-spacing:.06em}
+.nav-link--lang:hover{color:var(--navy);border-bottom-color:var(--gold)}
 
 /* ===== 6. Boutons ===== */
 .btn{
@@ -421,6 +423,7 @@ strong,b{font-weight:600}
   .nav{margin-left:0;width:100%;gap:1.25rem;overflow-x:auto;padding-bottom:.35rem;scrollbar-width:none}
   .nav .btn{display:none}
   .nav-link--contact{display:inline}
+  .nav-link--lang{margin-left:auto;padding-left:0;border-left:0}
   .sheet-row{grid-template-columns:1fr;gap:1.1rem}
   .fig-label{flex-direction:row;flex-wrap:wrap;gap:.2rem .6rem;align-items:center}
   .fig-label::before{width:1.4rem;margin:0 .2rem 0 0}

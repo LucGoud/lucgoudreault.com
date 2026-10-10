@@ -1,13 +1,13 @@
 """Vérifications avant chaque push.
 
 Usage :
-  python3 scripts/verifier.py                 vérifications statiques et navigateur
-  python3 scripts/verifier.py --publication   idem, et les notes « À confirmer » (.rev) deviennent bloquantes
-  python3 scripts/verifier.py --captures DOSSIER   enregistre aussi les captures 375 px et 1440 px
+  python3 scripts/verifier.py                     vérifications statiques et navigateur
+  python3 scripts/verifier.py --publication       idem, et les notes « À confirmer » (.rev) deviennent bloquantes
+  python3 scripts/verifier.py --captures DOSSIER  enregistre aussi les captures 375 px et 1440 px
 
-Statique : title, meta description, canonical, tiret cadratin, mots interdits, liens internes,
-ancres, images. Navigateur (Playwright + Chromium) : erreurs console, ressources en échec,
-débordement horizontal à 375 px et à 1440 px.
+Statique : title, meta description, canonical, og:image, hreflang (paires FR/EN), tiret cadratin,
+expressions interdites, liens internes et ancres, images. Navigateur (Playwright + Chromium) :
+erreurs console, ressources en échec, débordement horizontal à 375 px et à 1440 px.
 Code de sortie 1 s'il y a au moins une erreur.
 """
 import glob
@@ -18,13 +18,18 @@ import sys
 import threading
 
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DOMAINE = "https://www.lucgoudreault.com/"
 EXCLUS_PUBLICATION = {"guide-de-style.html"}   # pages de travail, jamais publiées (voir _config.yml)
+DOSSIERS_EXCLUS = ("archive", "scripts", ".git")
 CADRATIN = chr(0x2014)
 
 # Expressions interdites dans le texte visible et les métadonnées (minuscules)
 INTERDITS = [
     "premier échange gratuit", "échange gratuit", "diagnostic gratuit", "rencontre gratuite",
     "offre de service", "accompagnement sur mesure", "synergie",
+    "free consultation", "free call", "free discovery", "free intro",
+    # Mandats passés retirés du site (décision du 2026-10-10)
+    "machitech", "innoptech",
 ]
 # Interdits dans les titres, l'accroche et les métadonnées seulement
 INTERDITS_TITRES = ["consultant", "coach"]
@@ -45,10 +50,13 @@ class Lecteur(html.parser.HTMLParser):
         super().__init__(convert_charrefs=True)
         self.title, self.meta, self.links, self.imgs, self.ids = "", {}, [], [], set()
         self.canonical, self.revs, self.texte, self.titres = None, 0, [], []
+        self.alternates, self.lang, self.refresh = {}, "", False
         self._pile, self._dans_title, self._ignore = [], False, 0
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
+        if tag == "html":
+            self.lang = a.get("lang", "")
         if a.get("id"):
             self.ids.add(a["id"])
         if tag == "title":
@@ -59,8 +67,12 @@ class Lecteur(html.parser.HTMLParser):
             cle = a.get("name") or a.get("property")
             if cle:
                 self.meta[cle] = a.get("content", "")
+            if (a.get("http-equiv") or "").lower() == "refresh":
+                self.refresh = True
         if tag == "link" and a.get("rel") == "canonical":
             self.canonical = a.get("href")
+        if tag == "link" and a.get("rel") == "alternate" and a.get("hreflang"):
+            self.alternates[a["hreflang"]] = a.get("href", "")
         if tag == "a" and a.get("href") is not None:
             self.links.append(a["href"])
         if tag == "img":
@@ -85,8 +97,14 @@ class Lecteur(html.parser.HTMLParser):
         if self._ignore:
             return
         self.texte.append(data)
-        if any(t in ("h1",) or "kicker" in c.split() for t, c in self._pile):
+        if any(t == "h1" or "kicker" in c.split() for t, c in self._pile):
             self.titres.append(data)
+
+
+def pages_html():
+    tout = glob.glob(os.path.join(RACINE, "**", "*.html"), recursive=True)
+    return sorted(os.path.relpath(p, RACINE) for p in tout
+                  if not os.path.relpath(p, RACINE).startswith(DOSSIERS_EXCLUS))
 
 
 def lire(page):
@@ -95,28 +113,43 @@ def lire(page):
     return lecteur
 
 
-def cible(href):
-    """Fichier visé par un lien relatif, ou None si externe."""
+def fichier_de(chemin):
+    """Fichier servi pour un chemin relatif à la racine (comme GitHub Pages), ou None."""
+    chemin = chemin.lstrip("/")
+    if chemin in ("", "."):
+        chemin = "index.html"
+    elif chemin.endswith("/"):
+        chemin += "index.html"
+    for essai in (chemin, chemin + ".html", os.path.join(chemin, "index.html")):
+        if os.path.isfile(os.path.join(RACINE, essai)):
+            return os.path.normpath(essai)
+    return None
+
+
+def cible(page, href):
+    """(fichier visé, ancre) pour un lien interne, None si externe, (None, ancre) si brisé."""
     if re.match(r"^(https?:|mailto:|tel:)", href):
         return None
     chemin, _, ancre = href.partition("#")
     chemin = chemin.split("?")[0]
+    if chemin == "":
+        return page, ancre
     if chemin.startswith("/"):
-        chemin = chemin[1:]
-    if chemin in ("", "./"):
-        return "index.html", ancre
-    chemin = chemin[2:] if chemin.startswith("./") else chemin
-    for essai in (chemin, chemin + ".html", os.path.join(chemin, "index.html")):
-        if os.path.isfile(os.path.join(RACINE, essai)):
-            return essai, ancre
-    return ("?" + chemin), ancre
+        base = chemin
+    else:
+        dossier = os.path.dirname(page)
+        base = os.path.normpath(os.path.join(dossier, chemin)) + ("/" if chemin.endswith("/") or chemin in (".", "./") else "")
+        if base.startswith(".."):
+            return None, ancre
+    return fichier_de(base), ancre
 
 
 def statique(publication):
-    pages = sorted(os.path.basename(p) for p in glob.glob(os.path.join(RACINE, "*.html")))
+    pages = pages_html()
     lus = {p: lire(p) for p in pages}
     for page, l in lus.items():
         publiee = page not in EXCLUS_PUBLICATION
+        redirection = l.refresh
         if not l.title.strip():
             err(page, "title manquant")
         desc = l.meta.get("description", "")
@@ -126,8 +159,23 @@ def statique(publication):
             avert(page, f"meta description de {len(desc)} caractères (viser 70 à 170)")
         if publiee and page != "404.html" and not l.canonical:
             err(page, "canonical manquant")
-        if publiee and page != "404.html" and "og:image" not in l.meta:
+        if publiee and page != "404.html" and not redirection and "og:image" not in l.meta:
             err(page, "og:image manquant")
+
+        # Pages bilingues : paire hreflang complète, et la page d'en face existe
+        if page.startswith(("fr" + os.sep, "en" + os.sep)):
+            for code in ("fr-CA", "en", "x-default"):
+                if code not in l.alternates:
+                    err(page, f"hreflang « {code} » manquant")
+            for code, url in l.alternates.items():
+                if url.startswith(DOMAINE) and not fichier_de(url[len(DOMAINE):] or "/"):
+                    err(page, f"hreflang « {code} » vers une page absente : {url}")
+            attendu = "fr" if page.startswith("fr") else "en"
+            if not l.lang.startswith(attendu):
+                err(page, f"lang « {l.lang} » au lieu de {attendu}")
+            if l.canonical and l.canonical.startswith(DOMAINE):
+                if fichier_de(l.canonical[len(DOMAINE):] or "/") != os.path.normpath(page):
+                    err(page, f"canonical ne pointe pas vers cette page : {l.canonical}")
 
         visible = " ".join(l.texte).lower()
         meta_txt = (l.title + " " + " ".join(l.meta.values())).lower()
@@ -138,23 +186,26 @@ def statique(publication):
         for mot in INTERDITS_TITRES:
             if re.search(rf"\b{mot}", tete):
                 err(page, f"« {mot} » dans un titre, l'accroche ou les métadonnées")
-        if re.search(r"\b(tu|toi|ton|tes)\b", visible):
+        if l.lang.startswith("fr") and re.search(r"\b(tu|toi|ton|tes)\b", visible):
             avert(page, "possible tutoiement, à relire")
 
         for href in l.links:
             if page != "404.html" and href.startswith("/"):
                 err(page, f"chemin absolu « {href} » (les chemins doivent être relatifs)")
-            c = cible(href)
+            c = cible(page, href)
             if c is None:
                 continue
             fichier, ancre = c
-            if fichier.startswith("?"):
+            if fichier is None:
                 err(page, f"lien interne brisé : {href}")
             elif ancre and fichier in lus and ancre not in lus[fichier].ids:
                 err(page, f"ancre introuvable : {href}")
         for img in l.imgs:
             src = img.get("src", "")
-            if not src.startswith("http") and not os.path.isfile(os.path.join(RACINE, src.lstrip("/"))):
+            if src.startswith("http"):
+                continue
+            chemin = src.lstrip("/") if src.startswith("/") else os.path.normpath(os.path.join(os.path.dirname(page), src))
+            if not os.path.isfile(os.path.join(RACINE, chemin)):
                 err(page, f"image introuvable : {src}")
             if "alt" not in img:
                 err(page, f"image sans alt : {src}")
@@ -172,10 +223,19 @@ def statique(publication):
         n = open(chemin, encoding="utf-8", errors="ignore").read().count(CADRATIN)
         if n:
             err(rel, f"{n} tiret(s) cadratin")
-    return [p for p in pages]
+    return pages, lus
 
 
-def navigateur(pages, captures):
+def adresse(page):
+    sans = page[:-5]
+    if sans == "index":
+        return ""
+    if sans.endswith(os.sep + "index"):
+        return sans[:-5].replace(os.sep, "/")
+    return sans.replace(os.sep, "/")
+
+
+def navigateur(pages, lus, captures):
     try:
         from playwright.sync_api import sync_playwright
     except ImportError:
@@ -190,28 +250,34 @@ def navigateur(pages, captures):
     base = f"http://127.0.0.1:{port}/"
     if captures:
         os.makedirs(captures, exist_ok=True)
+    # Les pages de redirection et l'aiguillage de langue quittent la page : on les vérifie
+    # seulement pour l'arrivée (pas d'erreur console), sans capture.
     with sync_playwright() as p:
         b = p.chromium.launch()
         for largeur, hauteur in ((375, 812), (1440, 900)):
-            ctx = b.new_context(viewport={"width": largeur, "height": hauteur})
+            ctx = b.new_context(viewport={"width": largeur, "height": hauteur}, locale="fr-CA")
             for page in pages:
-                url = base + ("" if page == "index.html" else page[:-5])
+                url = base + adresse(page)
                 pg = ctx.new_page()
                 problemes = []
                 pg.on("console", lambda m, pr=problemes: m.type == "error" and pr.append("console : " + m.text))
                 pg.on("pageerror", lambda e, pr=problemes: pr.append("script : " + str(e)))
                 pg.on("requestfailed", lambda r, pr=problemes: r.url.startswith(base) and pr.append("échec : " + r.url))
-                pg.on("response", lambda r, pr=problemes: r.url.startswith(base) and r.status >= 400 and r.url != url and pr.append(f"{r.status} : {r.url}"))
+                pg.on("response", lambda r, pr=problemes: r.url.startswith(base) and r.status >= 400 and not r.url.endswith("/404") and pr.append(f"{r.status} : {r.url}"))
                 pg.goto(url, wait_until="networkidle")
                 pg.wait_for_timeout(300)
+                if page == "404.html":
+                    problemes[:] = [x for x in problemes if "404" not in x]
                 for pb in problemes:
                     err(f"{page} @{largeur}", pb)
                 deb = pg.evaluate("document.documentElement.scrollWidth - window.innerWidth")
                 if deb > 1:
                     err(f"{page} @{largeur}", f"débordement horizontal de {deb} px")
-                if captures:
+                quitte = lus[page].refresh or page == "index.html"
+                if captures and not quitte:
                     pg.wait_for_timeout(900)
-                    pg.screenshot(path=os.path.join(captures, f"{page[:-5]}-{largeur}.png"), full_page=True)
+                    nom = page[:-5].replace(os.sep, "-")
+                    pg.screenshot(path=os.path.join(captures, f"{nom}-{largeur}.png"), full_page=True)
                 pg.close()
             ctx.close()
         b.close()
@@ -222,8 +288,8 @@ if __name__ == "__main__":
     args = sys.argv[1:]
     publication = "--publication" in args
     captures = args[args.index("--captures") + 1] if "--captures" in args else None
-    pages = statique(publication)
-    navigateur(pages, captures)
+    pages, lus = statique(publication)
+    navigateur(pages, lus, captures)
     for a in avertissements:
         print("  avertissement  " + a)
     for e in erreurs:
