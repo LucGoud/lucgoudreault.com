@@ -55,6 +55,7 @@ scripts/serve.py      Aperçu local qui imite GitHub Pages
 scripts/verifier.py   Vérifications avant chaque push
 scripts/og.html, og-en.html, og.py   Gabarits et rendu des images de partage
 archive/              Ancien site Framer, copié tel quel, jamais publié
+docs/                 Documents de travail (sauvegarde DNS avant bascule), jamais publiés
 ```
 
 ### Adresses et liens
@@ -80,7 +81,7 @@ Dans l'en-tête, le lien de la page courante porte `aria-current="page"`. Le pie
 
 ### Fichiers exclus de la publication
 
-`_config.yml` exclut `archive`, `scripts`, `CLAUDE.md`, `README.md` et `guide-de-style.html`. Tout nouveau fichier de travail s'y ajoute.
+`_config.yml` exclut `archive`, `scripts`, `docs`, `CLAUDE.md`, `README.md` et `guide-de-style.html`. Tout nouveau fichier de travail s'y ajoute.
 
 ## Façon de travailler
 

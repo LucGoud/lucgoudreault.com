@@ -5,3 +5,4 @@ exclude:
   - CLAUDE.md
   - README.md
   - guide-de-style.html
+  - docs
