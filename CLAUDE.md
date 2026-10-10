@@ -10,9 +10,10 @@ Claude est le webmaster, le directeur artistique et le rédacteur du site de Luc
 
 ## État du site
 
-- **En ligne sur le domaine depuis le 10 octobre 2026** : www.lucgoudreault.com est servi par GitHub Pages depuis `main` (fichier `CNAME`). L'apex `lucgoudreault.com` redirige vers `www`. L'ancien site Framer est archivé dans `archive/`; son abonnement reste à annuler (rappel proposé à Luc).
+- **En ligne sur le domaine depuis le 10 octobre 2026** : www.lucgoudreault.com est servi par GitHub Pages depuis `main` (fichier `CNAME`). L'apex `lucgoudreault.com` redirige vers `www`. L'ancien site Framer est archivé dans `archive/`. Son forfait a été annulé le 2026-10-10 : il reste actif sans renouvellement jusqu'au 5 avril 2027 (plan de retour jusque-là). Une demande de remboursement au prorata a été faite le même jour par le clavardage Billing de Framer; la réponse arrivera par clavardage ou par courriel à info@.
 - **DNS** : bascule faite le 2026-10-10 (voir « Domaine et DNS » et `docs/dns-avant-bascule.md` pour revenir en arrière).
-- **HTTPS** : « Enforce HTTPS » est coché dans Settings > Pages dès que GitHub émet le certificat.
+- **HTTPS** : certificat Let's Encrypt émis le 2026-10-10 (renouvelé automatiquement par GitHub) et « Enforce HTTPS » coché : http et l'apex redirigent vers https://www.lucgoudreault.com.
+- **Vince** : avisé le 2026-10-10 que le site est en ligne (lien vers lucgoudreault.com à ajouter au pied de page de junior.coach, script Umami à ajouter par lui).
 
 ## Setup technique
 
