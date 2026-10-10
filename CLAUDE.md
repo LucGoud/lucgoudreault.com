@@ -54,6 +54,7 @@ _config.yml           Fichiers exclus de la publication
 scripts/serve.py      Aperçu local qui imite GitHub Pages
 scripts/verifier.py   Vérifications avant chaque push
 scripts/og.html, og-en.html, og.py   Gabarits et rendu des images de partage
+scripts/formulaire.gs Point de réception du formulaire (Google Apps Script, à installer)
 archive/              Ancien site Framer, copié tel quel, jamais publié
 ```
 
@@ -146,6 +147,8 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 - « Consultant », « coach » et « offre de service » n'apparaissent jamais dans les titres, l'accroche ni les métadonnées (même règle en anglais).
 - **Trois offres**, et seulement trois : siège au conseil d'administration (*board seat*), comité aviseur (*advisory board*), mandat auprès d'un dirigeant (*CEO advisory mandate*). La stratégie et la commercialisation (diagnostic, planification, go-to-market, prix) sont ce que couvre le mandat auprès d'un dirigeant, pas des offres séparées.
 - **Aucun mandat passé ni client nommé sur le site**, et aucun témoignage pour l'instant. Si un témoignage revient, Luc le fournit et confirme l'accord de la personne.
+- **Rôle actuel nommé** : Luc est aviseur pour Innoptech. C'est un rôle actuel, pas un mandat passé : il figure dans le parcours de l'accueil (« Gouvernance : Aviseur, Innoptech » / « Governance: Advisor, Innoptech »), sans autre détail.
+- **Pas de conditions ni de grille de rémunération sur le site.** Chaque engagement est défini par écrit. Le modèle FAST du Founder Institute (entente d'aviseur rémunéré en équité, selon le stade de la startup et le niveau d'engagement) peut servir dans une proposition écrite à une startup, jamais sur le site : il vise les startups, pas les PME établies qui sont la cible.
 - Luc est le **fondateur de Junior** (junior.coach). C'est visible dès l'accueil (cartouche de l'en-tête et lien « Junior » dans le nav) et Junior a sa section dédiée (`#junior`). Lien : `https://www.junior.coach/`.
 - **Aucune rencontre gratuite.** Jamais de « premier échange gratuit », de « diagnostic gratuit », de « free consultation » ni de bouton de réservation d'agenda. L'appel à l'action est « Prendre contact » / « Get in touch » et mène au formulaire qualifié.
 - **On n'invente rien** : ni titre, ni certification, ni siège, ni chiffre, ni témoignage, ni client. Une info manque? On la demande à Luc.
@@ -158,12 +161,16 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 - Basé à Québec. Entreprise : Luc Goudreault Stratégie inc. Courriel : info@lucgoudreault.com. LinkedIn : https://www.linkedin.com/in/luc-goudreault/
 - Tiré de l'ancien site (publié par Luc) : mandats à forfait, prix fixe, livrables clairs; confidentialité (aucune entreprise nommée sans accord); clientèle surtout PME québécoises en croissance établies depuis 10 ans ou plus, parfois des startups; secteurs techno, manufacturier, services; réponse dans les 24 heures.
 
-### Questions ouvertes (à demander à Luc, rien de publié en attendant)
+### Formulaire de contact
 
-- Conseils d'administration et comités aviseurs actuels à nommer, s'il y en a.
-- Engagement de temps et conditions de chaque offre, si Luc veut les afficher.
-- Service d'envoi du formulaire de contact (aujourd'hui : il ouvre le logiciel de courriel du visiteur, sans service tiers).
-- Website ID Umami (attendu de Vince).
+- Décision : les demandes arrivent par un point de réception Google Apps Script installé dans le Google Workspace de Luc (`scripts/formulaire.gs`). Chaque demande ajoute une ligne dans une feuille Google et envoie un avis à info@lucgoudreault.com, avec « Répondre » vers le visiteur. Pas de service tiers, les données restent chez Luc.
+- Tant que `data-endpoint` est vide dans `fr/contact.html` et `en/contact.html`, le formulaire ouvre le logiciel de courriel du visiteur avec la demande rédigée. Si l'envoi au point de réception échoue, même repli.
+- L'installation (étapes en tête de `scripts/formulaire.gs`) demande le go de Luc : il autorise lui-même son script Google.
+- Un champ caché `site_web` sert de piège à robots.
+
+### Questions ouvertes
+
+- Website ID Umami : Vince s'occupe de l'intégration.
 
 ## Marque et système de design
 
@@ -196,4 +203,5 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - 2026-10-10 : reprise du site dans ce repo; archiver l'ancien site avant tout; ne rien publier sur le domaine avant son go.
 - 2026-10-10 : retirer toute mention des mandats passés; trois offres (conseil d'administration, comité aviseur, mandat auprès d'un dirigeant); vouvoiement partout; site bilingue `/fr/` et `/en/` avec sélecteur de langue comme junior.coach; témoignage retiré (décision de Luc); V1 bâtie sur l'aperçu GitHub Pages.
 - 2026-10-10 : procédure de bascule du domaine et tâches d'après bascule (section « Bascule du domaine »), déclenchées seulement par « V1 approuvée, fais la bascule ».
+- 2026-10-10 : Luc est aviseur pour Innoptech (rôle actuel, nommé dans le parcours). Pas de conditions ni de grille FAST sur le site. Formulaire : Google Apps Script dans son Workspace.
 - 2026-10-10 : Claude a accès à tous les repos GitHub de Luc (application Claude installée sur le compte LucGoud, « All repositories »), à sa demande.

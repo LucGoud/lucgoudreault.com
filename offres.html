@@ -17,12 +17,12 @@
       : (navigator.language || "fr").slice(0, 2).toLowerCase() === "fr" ? "fr" : "en";
     if (langue === "en") cible = "en/roles";
   } catch (e) {}
-  location.replace(cible + location.hash);
+  location.replace(cible + location.search + location.hash);
 })();
 </script>
 <meta http-equiv="refresh" content="0; url=fr/offres">
 </head>
 <body>
-<p>Cette page a déménagé : <a href="fr/offres">lucgoudreault.com/fr/offres</a>. This page has moved: <a href="en/roles" lang="en">lucgoudreault.com/en/roles</a>.</p>
+<p>Cette page a déménagé : <a href="fr/offres">lucgoudreault.com/fr/offres</a>. <span lang="en">This page has moved: <a href="en/roles">lucgoudreault.com/en/roles</a>.</span></p>
 </body>
 </html>

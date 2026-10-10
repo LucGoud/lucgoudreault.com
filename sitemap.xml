@@ -4,30 +4,36 @@
     <loc>https://www.lucgoudreault.com/fr/</loc>
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://www.lucgoudreault.com/fr/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.lucgoudreault.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lucgoudreault.com/"/>
   </url>
   <url>
     <loc>https://www.lucgoudreault.com/en/</loc>
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://www.lucgoudreault.com/fr/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.lucgoudreault.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lucgoudreault.com/"/>
   </url>
   <url>
     <loc>https://www.lucgoudreault.com/fr/offres</loc>
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://www.lucgoudreault.com/fr/offres"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.lucgoudreault.com/en/roles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lucgoudreault.com/"/>
   </url>
   <url>
     <loc>https://www.lucgoudreault.com/en/roles</loc>
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://www.lucgoudreault.com/fr/offres"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.lucgoudreault.com/en/roles"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lucgoudreault.com/"/>
   </url>
   <url>
     <loc>https://www.lucgoudreault.com/fr/contact</loc>
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://www.lucgoudreault.com/fr/contact"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.lucgoudreault.com/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lucgoudreault.com/"/>
   </url>
   <url>
     <loc>https://www.lucgoudreault.com/en/contact</loc>
     <xhtml:link rel="alternate" hreflang="fr-CA" href="https://www.lucgoudreault.com/fr/contact"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.lucgoudreault.com/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.lucgoudreault.com/"/>
   </url>
 </urlset>

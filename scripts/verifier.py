@@ -28,8 +28,9 @@ INTERDITS = [
     "premier échange gratuit", "échange gratuit", "diagnostic gratuit", "rencontre gratuite",
     "offre de service", "accompagnement sur mesure", "synergie",
     "free consultation", "free call", "free discovery", "free intro",
-    # Mandats passés retirés du site (décision du 2026-10-10)
-    "machitech", "innoptech",
+    # Mandats passés retirés du site (décision du 2026-10-10). Innoptech reste permis :
+    # Luc y est aviseur aujourd'hui (rôle actuel, dans le parcours).
+    "machitech",
 ]
 # Interdits dans les titres, l'accroche et les métadonnées seulement
 INTERDITS_TITRES = ["consultant", "coach"]

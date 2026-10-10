@@ -17,12 +17,12 @@
       : (navigator.language || "fr").slice(0, 2).toLowerCase() === "fr" ? "fr" : "en";
     if (langue === "en") cible = "en/";
   } catch (e) {}
-  location.replace(cible + location.hash);
+  location.replace(cible + location.search + location.hash);
 })();
 </script>
 <meta http-equiv="refresh" content="0; url=fr/">
 </head>
 <body>
-<p>Cette page a déménagé : <a href="fr/">lucgoudreault.com/fr/</a>. This page has moved: <a href="en/" lang="en">lucgoudreault.com/en/</a>.</p>
+<p>Cette page a déménagé : <a href="fr/">lucgoudreault.com/fr/</a>. <span lang="en">This page has moved: <a href="en/">lucgoudreault.com/en/</a>.</span></p>
 </body>
 </html>
