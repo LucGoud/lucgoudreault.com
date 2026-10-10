@@ -54,7 +54,6 @@ _config.yml           Fichiers exclus de la publication
 scripts/serve.py      Aperçu local qui imite GitHub Pages
 scripts/verifier.py   Vérifications avant chaque push
 scripts/og.html, og-en.html, og.py   Gabarits et rendu des images de partage
-scripts/formulaire.gs Point de réception du formulaire (Google Apps Script, à installer)
 archive/              Ancien site Framer, copié tel quel, jamais publié
 ```
 
@@ -136,7 +135,7 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 
 ### Après la bascule
 
-- Si Vince a envoyé le website ID Umami, ajouter le script d'analytique sur toutes les pages (même hôte que junior.coach, à confirmer avec l'ID).
+- Si Vince a envoyé le website ID Umami, ajouter le script d'analytique sur toutes les pages (même hôte que junior.coach, à confirmer avec l'ID), sauf si Vince l'a déjà ajouté lui-même.
 - Rédiger pour Luc un court courriel à Vince : le site est en ligne, il peut ajouter le lien vers lucgoudreault.com dans le pied de page de junior.coach.
 - Proposer à Luc un rappel dans deux semaines pour annuler l'abonnement Framer.
 - Mettre à jour la section « État du site » de ce fichier.
@@ -163,14 +162,14 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 
 ### Formulaire de contact
 
-- Décision : les demandes arrivent par un point de réception Google Apps Script installé dans le Google Workspace de Luc (`scripts/formulaire.gs`). Chaque demande ajoute une ligne dans une feuille Google et envoie un avis à info@lucgoudreault.com, avec « Répondre » vers le visiteur. Pas de service tiers, les données restent chez Luc.
-- Tant que `data-endpoint` est vide dans `fr/contact.html` et `en/contact.html`, le formulaire ouvre le logiciel de courriel du visiteur avec la demande rédigée. Si l'envoi au point de réception échoue, même repli.
-- L'installation (étapes en tête de `scripts/formulaire.gs`) demande le go de Luc : il autorise lui-même son script Google.
-- Un champ caché `site_web` sert de piège à robots.
+- Décision de Luc : **Formspree**, compte au nom de info@lucgoudreault.com (Luc crée le compte et s'y connecte lui-même; Claude ne crée jamais de compte et n'entre jamais de mot de passe). Les demandes arrivent par courriel à info@lucgoudreault.com, avec « Répondre » vers le visiteur (champ `email`).
+- Branchement : l'adresse du formulaire Formspree (`https://formspree.io/f/...`) va dans `data-endpoint` **et** dans `action` du formulaire, dans `fr/contact.html` et `en/contact.html`. Avec JavaScript, `site.js` envoie en arrière-plan et affiche la confirmation dans la page; sans JavaScript, le navigateur poste directement à Formspree.
+- Tant que `data-endpoint` est vide, le formulaire ouvre le logiciel de courriel du visiteur avec la demande rédigée. Si l'envoi à Formspree échoue, même repli.
+- Champs : `email` (réponse), `_subject` (ajouté par `site.js` : offre visée et entreprise), `_gotcha` (piège à robots caché, ignoré par Formspree), `langue` (fr ou en).
 
 ### Questions ouvertes
 
-- Website ID Umami : Vince s'occupe de l'intégration.
+- Website ID Umami : Vince ajoute lui-même le script (il est collaborateur sur le repo).
 
 ## Marque et système de design
 
@@ -203,5 +202,6 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - 2026-10-10 : reprise du site dans ce repo; archiver l'ancien site avant tout; ne rien publier sur le domaine avant son go.
 - 2026-10-10 : retirer toute mention des mandats passés; trois offres (conseil d'administration, comité aviseur, mandat auprès d'un dirigeant); vouvoiement partout; site bilingue `/fr/` et `/en/` avec sélecteur de langue comme junior.coach; témoignage retiré (décision de Luc); V1 bâtie sur l'aperçu GitHub Pages.
 - 2026-10-10 : procédure de bascule du domaine et tâches d'après bascule (section « Bascule du domaine »), déclenchées seulement par « V1 approuvée, fais la bascule ».
-- 2026-10-10 : Luc est aviseur pour Innoptech (rôle actuel, nommé dans le parcours). Pas de conditions ni de grille FAST sur le site. Formulaire : Google Apps Script dans son Workspace.
+- 2026-10-10 : Luc est aviseur pour Innoptech (rôle actuel, nommé dans le parcours). Pas de conditions ni de grille FAST sur le site. Formulaire : Formspree (choix de Luc).
 - 2026-10-10 : Claude a accès à tous les repos GitHub de Luc (application Claude installée sur le compte LucGoud, « All repositories »), à sa demande.
+- 2026-10-10 : Vince (`VincentBern`) est invité comme collaborateur en écriture sur le repo, par Luc. Il peut pousser sur `main` : toujours faire un `git pull` avant de travailler, et ne jamais écraser ses changements.

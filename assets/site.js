@@ -3,8 +3,8 @@
   1. Décale l'apparition des rangées du cartouche (le seul mouvement du site).
   2. Met l'année du pied de page à jour.
   3. Retient la langue choisie (sélecteur FR/EN), comme sur junior.coach.
-  4. Page Contact : envoie la demande au point de réception (Google Apps Script) si
-     data-endpoint est rempli, sinon ouvre le logiciel de courriel avec la demande rédigée.
+  4. Page Contact : envoie la demande à Formspree si data-endpoint est rempli,
+     sinon ouvre le logiciel de courriel avec la demande rédigée.
 */
 (function () {
   "use strict";
@@ -65,7 +65,7 @@
     var entreprise = get("entreprise");
     var lignes = [
       t.nom + t.sep + get("nom"),
-      t.courriel + t.sep + get("courriel"),
+      t.courriel + t.sep + get("email"),
       t.entreprise + t.sep + entreprise,
       t.role + t.sep + (get("role") || t.vide),
       t.taille + t.sep + (get("taille") || t.vide),
@@ -86,15 +86,17 @@
     if (!form.reportValidity()) return;
     var data = new FormData(form);
 
-    // Piège à robots : un humain ne voit pas ce champ
-    if ((data.get("site_web") || "").toString().trim()) { form.reset(); dire(t.ok); return; }
+    // Piège à robots : un humain ne voit pas ce champ (Formspree l'ignore aussi)
+    if ((data.get("_gotcha") || "").toString().trim()) { form.reset(); dire(t.ok); return; }
 
     if (!endpoint) { parCourriel(data); dire(t.mailto); return; }
 
+    var entreprise = (data.get("entreprise") || "").toString().trim();
     data.append("langue", anglais ? "en" : "fr");
+    data.append("_subject", (data.get("type") || t.defaut) + (entreprise ? " (" + entreprise + ")" : ""));
     if (bouton) bouton.disabled = true;
     dire(t.envoi);
-    fetch(endpoint, { method: "POST", body: new URLSearchParams(data) })
+    fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } })
       .then(function (r) { return r.json(); })
       .then(function (rep) {
         if (!rep || !rep.ok) throw new Error("refus");
