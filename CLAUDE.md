@@ -10,9 +10,9 @@ Claude est le webmaster, le directeur artistique et le rédacteur du site de Luc
 
 ## État du site
 
-- **Domaine** : www.lucgoudreault.com pointe encore vers l'ancien site Framer (`www` en CNAME vers `sites.framer.app`). Son contenu est archivé dans `archive/`.
-- **Aperçu GitHub Pages** : GitHub Pages est activé sur `main`. Avant la bascule, `main` publie seulement sur https://lucgoud.github.io/lucgoudreault.com/ et pas sur le domaine. C'est là que Luc regarde la V1.
-- **Bascule** : seulement quand Luc écrit explicitement « V1 approuvée, fais la bascule » (section « Bascule du domaine »).
+- **En ligne sur le domaine depuis le 10 octobre 2026** : www.lucgoudreault.com est servi par GitHub Pages depuis `main` (fichier `CNAME`). L'apex `lucgoudreault.com` redirige vers `www`. L'ancien site Framer est archivé dans `archive/`; son abonnement reste à annuler (rappel proposé à Luc).
+- **DNS** : bascule faite le 2026-10-10 (voir « Domaine et DNS » et `docs/dns-avant-bascule.md` pour revenir en arrière).
+- **HTTPS** : « Enforce HTTPS » est coché dans Settings > Pages dès que GitHub émet le certificat.
 
 ## Setup technique
 
@@ -85,8 +85,8 @@ Dans l'en-tête, le lien de la page courante porte `aria-current="page"`. Le pie
 
 ## Façon de travailler
 
-- **Avant la bascule** : `main` ne publie que sur l'aperçu github.io. Luc a demandé d'y bâtir la V1, donc les versions à montrer vont sur `main`, après le vérificateur. Le domaine n'est jamais touché avant son go explicite.
-- **Après la bascule** : petite modif (texte, date, lien, ajout simple) directement sur `main`, puis vérification en ligne et réponse en une ou deux phrases avec le lien. Changement important (nouvelle page, refonte de section, design, positionnement) sur une branche, avec aperçu (captures 375 px et 1440 px), et fusion dans `main` seulement après le go de Luc.
+- **Depuis la bascule, `main` = le site en ligne.** Un push sur `main` publie sur www.lucgoudreault.com.
+- Règle : petite modif (texte, date, lien, ajout simple) directement sur `main`, puis vérification en ligne et réponse en une ou deux phrases avec le lien. Changement important (nouvelle page, refonte de section, design, positionnement) sur une branche, avec aperçu (captures 375 px et 1440 px), et fusion dans `main` seulement après le go de Luc.
 - **Jamais** supprimer une page ou du contenu sans confirmation de Luc.
 - Messages de commit en français, au présent, qui disent ce qui change pour le visiteur.
 
@@ -107,7 +107,8 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 - Domaine chez GoDaddy (serveurs de noms `ns47` et `ns48.domaincontrol.com`).
 - **Ne jamais modifier les MX** (Google Workspace, courriel `info@lucgoudreault.com` : `aspmx.l.google.com` et `alt1` à `alt4`).
 - **Ne jamais modifier les TXT** (SPF, DKIM, `google-site-verification`) ni aucun autre enregistrement que ceux listés à la bascule.
-- État relevé le 10 octobre 2026 : `www` en CNAME vers `sites.framer.app`; `@` en A vers `31.43.160.6` et `31.43.161.6` (Framer).
+- Avant la bascule (sauvegarde dans `docs/dns-avant-bascule.md`) : `www` en CNAME vers `sites.framer.app`; `@` en A vers `31.43.160.6` et `31.43.161.6` (Framer).
+- Depuis le 2026-10-10 : `@` en A vers `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` (GitHub Pages); `www` en CNAME vers `lucgoud.github.io`. Tout le reste est inchangé.
 
 ## Bascule du domaine
 
@@ -208,4 +209,5 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - 2026-10-10 : procédure de bascule du domaine et tâches d'après bascule (section « Bascule du domaine »), déclenchées seulement par « V1 approuvée, fais la bascule ».
 - 2026-10-10 : Luc est aviseur pour Innoptech (rôle actuel, nommé dans le parcours). Pas de conditions ni de grille FAST sur le site. Formulaire : Formspree (choix de Luc).
 - 2026-10-10 : Claude a accès à tous les repos GitHub de Luc (application Claude installée sur le compte LucGoud, « All repositories »), à sa demande.
+- 2026-10-10 : bascule du domaine approuvée et faite (Framer vers GitHub Pages), y compris GoDaddy.
 - 2026-10-10 : Vince (`VincentBern`) est invité comme collaborateur en écriture sur le repo, par Luc. Il peut pousser sur `main` : toujours faire un `git pull` avant de travailler, et ne jamais écraser ses changements.

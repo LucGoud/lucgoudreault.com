@@ -48,3 +48,7 @@ Les MX (9 à 13), les TXT (14 à 18), les NS, le SOA et les CNAME `ftp` et `_dom
 3. Remettre le CNAME `www` à `sites.framer.app.`, TTL 1 heure.
 4. Dans GitHub, Settings > Pages : retirer le domaine personnalisé (ce qui retire le fichier `CNAME` du repo).
 5. Vérifier que www.lucgoudreault.com affiche de nouveau le site Framer, puis prévenir Luc.
+
+## Fait le 10 octobre 2026, 12 h 35
+
+Les cinq changements ont été appliqués tels quels dans GoDaddy, avec l'accord de Luc (« OK GoDaddy ») : les deux A de `@` modifiés, deux A ajoutés (TTL 600 secondes pour les quatre), le CNAME `www` modifié (TTL 1 heure). Résultat : 20 enregistrements. Les MX, TXT, NS, SOA et les CNAME `ftp` et `_domainconnect` sont restés identiques (vérifié dans GoDaddy et dans le DNS public).
