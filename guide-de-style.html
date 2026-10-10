@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guide de style | lucgoudreault.com</title>
+<meta name="description" content="Système de design de lucgoudreault.com : jetons, typographie et composantes. Page de travail, jamais publiée.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<script>document.documentElement.classList.add("js")</script>
+<script defer src="assets/site.js"></script>
+<style>
+  /* Styles propres à cette page de travail seulement */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(13rem,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:2rem}
+  .swatch{background:var(--sheet);padding:0 0 .9rem}
+  .swatch i{display:block;height:4.5rem;border-bottom:1px solid var(--line)}
+  .swatch b{display:block;padding:.8rem 1rem 0;font-weight:600}
+  .swatch code,.spec-note{display:block;padding:.15rem 1rem 0;font-family:var(--f-mono);font-size:var(--fs-mono-sm);color:var(--graphite)}
+  .type-row{display:grid;grid-template-columns:11rem minmax(0,1fr);gap:1.5rem;padding:1.4rem 0;border-bottom:1px solid var(--line);align-items:baseline}
+  .type-row:first-child{border-top:1px solid var(--line-strong)}
+  .demo{margin-top:2rem}
+  .demo + .demo{margin-top:3rem}
+  .demo > .annot{display:block;margin-bottom:.9rem}
+  .navy-demo{padding:2rem;margin-top:1rem}
+  @media (max-width:760px){.type-row{grid-template-columns:1fr;gap:.4rem}}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="wordmark" href="./" aria-label="Luc Goudreault, accueil">
+      <svg viewBox="0 0 54 68" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" d="M4 64C28 63 44 52 50 13"/><circle cx="50" cy="13" r="7" fill="#B8923A"/></svg>
+      <span class="name">Luc Goudreault</span>
+      <span class="role">Administrateur de sociétés</span>
+    </a>
+    <nav class="nav" aria-label="Navigation principale">
+      <a class="nav-link" href="offres">Mandats</a>
+      <a class="nav-link" href="clients">Clients</a>
+      <a class="nav-link" href="./#junior">Junior</a>
+      <a class="nav-link nav-link--contact" href="contact">Contact</a>
+      <a class="btn btn--sm" href="contact">Prendre contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="contenu">
+
+  <section class="sheet-head sheet-head--page">
+    <div class="wrap sheet-head-grid">
+      <div>
+        <p class="kicker">Système de design</p>
+        <h1><span class="line">Guide de style</span><span class="line">du jeu de plans.</span></h1>
+        <p class="lede">Chaque page du site est une feuille d'un jeu de plans d'architecte : une grille de fond, un cartouche, des figures numérotées et des annotations en monospace. Marine profond et or. Tout passe par les jetons de <code>assets/site.css</code>.</p>
+      </div>
+      <aside class="cartouche" aria-label="Cartouche">
+        <div class="cartouche-head"><span>Cartouche</span><span>Rév. octobre 2026</span></div>
+        <dl>
+          <div class="cartouche-row"><dt>Document</dt><dd>Guide de style</dd></div>
+          <div class="cartouche-row"><dt>Source</dt><dd>assets/site.css</dd></div>
+          <div class="cartouche-row"><dt>Statut</dt><dd>Page de travail, jamais publiée</dd></div>
+        </dl>
+        <div class="cartouche-foot"><span>Feuille <b>hors série</b></span><span>Guide</span></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Couleurs -->
+  <section class="band">
+    <div class="wrap sheet-row">
+      <p class="fig-label margin"><span class="no">Fig. 01</span><span>Couleurs</span></p>
+      <div>
+        <h2>Couleurs</h2>
+        <p class="measure mt-1">Le papier et l'encre portent la page; le marine porte l'identité; l'or sert de repère. L'or pur ne sert jamais à du texte sur fond clair : on prend l'or d'encre.</p>
+        <div class="swatches">
+          <div class="swatch"><i style="background:var(--paper)"></i><b>Papier</b><code>--paper #E9E8E3</code><span class="spec-note">Fond de page</span></div>
+          <div class="swatch"><i style="background:var(--sheet)"></i><b>Feuille</b><code>--sheet #F5F4F0</code><span class="spec-note">Cartouches, figures, champs</span></div>
+          <div class="swatch"><i style="background:var(--ink)"></i><b>Encre</b><code>--ink #0E1A2C</code><span class="spec-note">Texte principal</span></div>
+          <div class="swatch"><i style="background:var(--graphite)"></i><b>Graphite</b><code>--graphite #58616E</code><span class="spec-note">Texte secondaire, annotations</span></div>
+          <div class="swatch"><i style="background:var(--line)"></i><b>Filet</b><code>--line #C6C3B9</code><span class="spec-note">Traits fins, séparateurs</span></div>
+          <div class="swatch"><i style="background:var(--navy)"></i><b>Marine profond</b><code>--navy #0F2747</code><span class="spec-note">Boutons, bande Junior, titres secondaires</span></div>
+          <div class="swatch"><i style="background:var(--navy-deep)"></i><b>Marine nuit</b><code>--navy-deep #0A1B33</code><span class="spec-note">Bande de fermeture</span></div>
+          <div class="swatch"><i style="background:var(--gold)"></i><b>Or</b><code>--gold #B8923A</code><span class="spec-note">Filets, points, repères</span></div>
+          <div class="swatch"><i style="background:var(--gold-ink)"></i><b>Or d'encre</b><code>--gold-ink #7D5E18</code><span class="spec-note">Texte or sur fond clair</span></div>
+          <div class="swatch"><i style="background:var(--gold-bright)"></i><b>Or vif</b><code>--gold-bright #D8B463</code><span class="spec-note">Or sur marine, bouton principal sur marine</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Typographie -->
+  <section class="band">
+    <div class="wrap sheet-row">
+      <p class="fig-label margin"><span class="no">Fig. 02</span><span>Typographie</span></p>
+      <div>
+        <h2>Typographie</h2>
+        <p class="measure mt-1">Archivo condensé pour les titres, IBM Plex Sans pour le texte, IBM Plex Mono pour les annotations. Les annotations restent en casse normale.</p>
+        <div class="mt-2">
+          <div class="type-row"><span class="annot">h1 · Archivo 700, largeur 82</span><h1 style="font-size:clamp(2.2rem,5vw,3.6rem)">Un ex-CEO à votre table.</h1></div>
+          <div class="type-row"><span class="annot">h2 · Archivo 700, largeur 90</span><h2>Trois places autour de la table.</h2></div>
+          <div class="type-row"><span class="annot">h3 · Archivo 700, largeur 94</span><h3>Aux côtés du dirigeant</h3></div>
+          <div class="type-row"><span class="annot">Chapeau · Plex Sans 400</span><p class="lede">Je travaille avec les dirigeants de PME en croissance sur les décisions qui engagent l'entreprise.</p></div>
+          <div class="type-row"><span class="annot">Texte · Plex Sans 400, 17 px</span><p class="measure">Avant de travailler aux côtés des dirigeants, j'ai été entrepreneur et CEO. La mesure de texte est limitée à 66 caractères.</p></div>
+          <div class="type-row"><span class="annot">Annotation · Plex Mono 400</span><span class="annot">Rév. octobre 2026</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Annotations -->
+  <section class="band">
+    <div class="wrap sheet-row">
+      <p class="fig-label margin"><span class="no">Fig. 03</span><span>Annotations</span></p>
+      <div>
+        <h2>Le langage du plan</h2>
+        <div class="demo">
+          <span class="annot">.fig-label : numéro de figure dans la colonne de marge, un par section</span>
+          <p class="fig-label"><span class="no">Fig. 02</span><span>Façons de travailler</span></p>
+        </div>
+        <div class="demo">
+          <span class="annot">.cote : ligne de mesure</span>
+          <div class="cote" aria-hidden="true"><span>12 ans et plus</span></div>
+        </div>
+        <div class="demo">
+          <span class="annot">.rev : information à confirmer, bloquante avant publication</span>
+          <p class="rev"><b>À confirmer.</b> Les conseils actuels à nommer.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Boutons -->
+  <section class="band">
+    <div class="wrap sheet-row">
+      <p class="fig-label margin"><span class="no">Fig. 04</span><span>Boutons et liens</span></p>
+      <div>
+        <h2>Boutons et liens</h2>
+        <p class="measure mt-1">Un verbe qui dit ce qui arrive. Pas de flèche ajoutée.</p>
+        <div class="actions">
+          <a class="btn" href="contact">Prendre contact</a>
+          <a class="btn btn--ghost" href="offres">Voir les mandats</a>
+          <a class="btn btn--sm" href="contact">Prendre contact</a>
+        </div>
+        <p class="mt-2"><a class="link" href="clients">Voir les mandats réalisés</a></p>
+        <div class="band--navy navy-demo">
+          <div class="actions mt-0">
+            <a class="btn btn--gold" href="contact">Prendre contact</a>
+            <a class="btn btn--on-navy" href="offres">Voir les mandats</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blocs d'information -->
+  <section class="band">
+    <div class="wrap sheet-row">
+      <p class="fig-label margin"><span class="no">Fig. 05</span><span>Blocs d'information</span></p>
+      <div>
+        <h2>Cartouche, relevé, registre</h2>
+        <div class="demo split">
+          <div>
+            <span class="annot">.cartouche : fiche d'identité d'une page ou d'un mandat</span>
+            <aside class="cartouche">
+              <div class="cartouche-head"><span>Fiche A</span><span>Manufacturier</span></div>
+              <dl>
+                <div class="cartouche-row"><dt>Client</dt><dd>Nom du client</dd></div>
+                <div class="cartouche-row"><dt>Lieu</dt><dd>Ville</dd></div>
+              </dl>
+              <div class="cartouche-foot"><span>Feuille <b>03</b> de 04</span><span>Clients</span></div>
+            </aside>
+          </div>
+          <div>
+            <span class="annot">.quote : témoignage réel seulement</span>
+            <figure class="quote">
+              <blockquote><p>« Texte du témoignage, mot pour mot, avec l'accord de la personne. »</p></blockquote>
+              <figcaption><span class="who">Prénom Nom</span><span class="what">Titre, entreprise</span></figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="demo">
+          <span class="annot">.specs : chiffres vérifiés seulement</span>
+          <div class="specs mt-0" role="list">
+            <div class="spec" role="listitem"><span class="value">12+</span><span class="label">ans en direction</span></div>
+            <div class="spec" role="listitem"><span class="value">2</span><span class="label">rondes de financement</span></div>
+            <div class="spec" role="listitem"><span class="value">2</span><span class="label">exits</span></div>
+          </div>
+        </div>
+        <div class="demo">
+          <span class="annot">.ledger : titres, formations, rôles</span>
+          <dl class="ledger mt-0">
+            <div class="ledger-row"><dt>Formation</dt><dd>eMBA, Université Laval<span class="sub">Incluant un volet au Babson College</span></dd></div>
+            <div class="ledger-row"><dt>Écosystème</dt><dd>Entrepreneur en résidence, Le CAMP</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Listes -->
+  <section class="band">
+    <div class="wrap sheet-row">
+      <p class="fig-label margin"><span class="no">Fig. 06</span><span>Listes</span></p>
+      <div>
+        <h2>Colonnes, étapes, questions</h2>
+        <div class="demo">
+          <span class="annot">.columns et .list</span>
+          <div class="columns mt-0">
+            <div class="column"><h3>Stratégie</h3><p>Pour l'organisation dans son ensemble.</p><ul class="list"><li>Diagnostic stratégique</li><li>Feuille de route d'exécution</li></ul></div>
+            <div class="column"><h3>Commercialisation</h3><p>Pour le moteur de revenus.</p><ul class="list"><li>Stratégie go-to-market</li><li>Structure de prix</li></ul></div>
+          </div>
+        </div>
+        <div class="demo measure">
+          <span class="annot">.steps : seulement pour une vraie séquence</span>
+          <ol class="steps mt-0">
+            <li><div><b>Vous décrivez l'enjeu</b><span>Par le formulaire de contact.</span></div></li>
+            <li><div><b>Proposition écrite</b><span>Portée, livrables et prix fixe.</span></div></li>
+          </ol>
+        </div>
+        <div class="demo">
+          <span class="annot">.qa : questions et réponses</span>
+          <dl class="qa mt-0">
+            <div class="qa-row"><dt>Travaillez-vous à forfait ou à l'heure?</dt><dd>À forfait.</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulaire -->
+  <section class="band">
+    <div class="wrap sheet-row">
+      <p class="fig-label margin"><span class="no">Fig. 07</span><span>Formulaire</span></p>
+      <div>
+        <h2>Champs</h2>
+        <form class="form mt-2" onsubmit="return false">
+          <div class="form-row">
+            <div class="field"><label for="g-nom">Nom</label><input class="input" id="g-nom" type="text"></div>
+            <div class="field"><label for="g-role">Votre rôle</label><select class="select" id="g-role"><option>Choisir</option></select></div>
+          </div>
+          <fieldset class="fieldset"><legend>Type de demande</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="g-type" checked><span>Choix sélectionné</span></label>
+              <label class="choice"><input type="radio" name="g-type"><span>Autre choix</span></label>
+            </div>
+          </fieldset>
+          <div class="field"><label for="g-enjeu">L'enjeu</label><textarea class="textarea" id="g-enjeu" placeholder="Texte d'exemple"></textarea></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="closer">
+    <div class="wrap sheet-row">
+      <p class="fig-label margin"><span class="no">Fig. 08</span><span>Fermeture</span></p>
+      <div>
+        <h2>La bande de fermeture termine chaque page.</h2>
+        <p>Une question, une phrase, un bouton.</p>
+        <div class="actions"><a class="btn btn--gold" href="contact">Prendre contact</a></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-base">
+      <span>© <span data-year>2026</span> Luc Goudreault Stratégie inc.</span>
+      <span>Feuille hors série</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

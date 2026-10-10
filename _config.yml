@@ -1,0 +1,7 @@
+# GitHub Pages : ces fichiers restent dans le repo mais ne sont jamais publiés sur le site.
+exclude:
+  - archive
+  - scripts
+  - CLAUDE.md
+  - README.md
+  - guide-de-style.html
