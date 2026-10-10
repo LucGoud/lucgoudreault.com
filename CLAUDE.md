@@ -185,7 +185,7 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - **Typographie** : Archivo (titres, largeur condensée 82 à 94), IBM Plex Sans (texte, 17 px), IBM Plex Mono (annotations, en casse normale, pas en majuscules).
 - **Composantes** : `.sheet-head`, `.cartouche`, `.sheet-row` + `.fig-label`, `.band`, `.band--navy`, `.columns`, `.list`, `.specs`, `.ledger`, `.steps` (seulement pour une vraie séquence), `.qa`, `.quote` (pas utilisé pour l'instant), `.portrait`, `.form`, `.closer`, `.rev`, `.cote`, `.btn` et ses variantes, `.nav-link--lang`.
 - **Mouvement** : un seul moment, au chargement de l'en-tête (titre puis rangées du cartouche). Pas d'apparition au défilement. `prefers-reduced-motion` respecté.
-- **Images** : pas de photos de banque, pas d'illustrations générées par IA, pas de faux mockups. Seule photo : le portrait de Luc (`assets/img/luc-goudreault.jpg`).
+- **Images** : pas de photos de banque, pas d'illustrations générées par IA, pas de faux mockups. Seule photo : le portrait de Luc (`assets/img/luc-goudreault.jpg`), recadré serré et en traitement marine (gris vers marine nuit, fond papier), tiré de l'original en couleur `archive/images/portrait-luc-goudreault.png`. C'est temporaire : Luc prévoit une séance photo professionnelle (veston foncé, fond neutre ou foncé, sourire posé, carré, vertical et horizontal, 2000 px et plus). Quand les nouvelles photos arrivent, elles remplacent celle-ci.
 - **Boutons** : un verbe qui dit ce qui arrive (« Prendre contact », « Voir les offres », « Get in touch »), sans flèche ajoutée.
 - **Accessibilité** : contraste AA, focus visible, lien d'évitement, `alt` sur toute image, labels sur tous les champs, `lang` sur les liens vers l'autre langue.
 
@@ -211,3 +211,4 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - 2026-10-10 : Claude a accès à tous les repos GitHub de Luc (application Claude installée sur le compte LucGoud, « All repositories »), à sa demande.
 - 2026-10-10 : bascule du domaine approuvée et faite (Framer vers GitHub Pages), y compris GoDaddy.
 - 2026-10-10 : Vince (`VincentBern`) est invité comme collaborateur en écriture sur le repo, par Luc. Il peut pousser sur `main` : toujours faire un `git pull` avant de travailler, et ne jamais écraser ses changements.
+- 2026-10-10 : portrait jugé trop décontracté pour le positionnement; Luc choisit le traitement marine recadré (option B) en solution temporaire, en attendant une nouvelle séance photo. Aucune retouche IA du visage ni des vêtements.

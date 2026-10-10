@@ -283,7 +283,7 @@ strong,b{font-weight:600}
 /* Portrait avec repères de coupe aux quatre coins */
 .portrait{position:relative}
 .portrait .frame{position:relative;padding:14px}
-.portrait .frame img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#fff}
+.portrait .frame img{width:100%;aspect-ratio:1/1;object-fit:cover;background:var(--paper)}
 .portrait .frame::before{
   content:"";position:absolute;inset:0;pointer-events:none;
   --c:var(--gold);--l:18px;
