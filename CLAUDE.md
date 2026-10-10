@@ -163,7 +163,8 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 ### Formulaire de contact
 
 - Décision de Luc : **Formspree**, compte au nom de info@lucgoudreault.com (Luc crée le compte et s'y connecte lui-même; Claude ne crée jamais de compte et n'entre jamais de mot de passe). Les demandes arrivent par courriel à info@lucgoudreault.com, avec « Répondre » vers le visiteur (champ `email`).
-- Branchement : l'adresse du formulaire Formspree (`https://formspree.io/f/...`) va dans `data-endpoint` **et** dans `action` du formulaire, dans `fr/contact.html` et `en/contact.html`. Avec JavaScript, `site.js` envoie en arrière-plan et affiche la confirmation dans la page; sans JavaScript, le navigateur poste directement à Formspree.
+- Formulaire Formspree « Contact lucgoudreault.com » (projet « My First Project »), adresse `https://formspree.io/f/xzedgvyp`, créé le 2026-10-10.
+- Branchement : l'adresse du formulaire Formspree va dans `data-endpoint` **et** dans `action` du formulaire, dans `fr/contact.html` et `en/contact.html`. Avec JavaScript, `site.js` envoie en arrière-plan et affiche la confirmation dans la page; sans JavaScript, le navigateur poste directement à Formspree.
 - Tant que `data-endpoint` est vide, le formulaire ouvre le logiciel de courriel du visiteur avec la demande rédigée. Si l'envoi à Formspree échoue, même repli.
 - Champs : `email` (réponse), `_subject` (ajouté par `site.js` : offre visée et entreprise), `_gotcha` (piège à robots caché, ignoré par Formspree), `langue` (fr ou en).
 
