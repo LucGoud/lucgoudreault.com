@@ -166,7 +166,9 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 - Formulaire Formspree « Contact lucgoudreault.com » (projet « My First Project »), adresse `https://formspree.io/f/xzedgvyp`, créé le 2026-10-10.
 - Branchement : l'adresse du formulaire Formspree va dans `data-endpoint` **et** dans `action` du formulaire, dans `fr/contact.html` et `en/contact.html`. Avec JavaScript, `site.js` envoie en arrière-plan et affiche la confirmation dans la page; sans JavaScript, le navigateur poste directement à Formspree.
 - Tant que `data-endpoint` est vide, le formulaire ouvre le logiciel de courriel du visiteur avec la demande rédigée. Si l'envoi à Formspree échoue, même repli.
-- Champs : `email` (réponse), `_subject` (ajouté par `site.js` : offre visée et entreprise), `_gotcha` (piège à robots caché, ignoré par Formspree), `langue` (fr ou en).
+- Champs : les noms (`name`) sont des libellés lisibles en français, parce que Formspree les reprend tels quels dans le courriel : `Nom`, `email` (doit rester `email` pour que « Répondre » vise le visiteur), `Entreprise`, `Rôle`, `Offre visée`, `Employés`, `Échéance`, `Enjeu`, `Langue` (ajouté par `site.js`). Aussi : `_subject` (offre visée et entreprise) et `_gotcha` (piège à robots caché, ignoré par Formspree).
+- Formspree gratuit : 50 demandes par mois. Au-delà, si Formspree refuse l'envoi, le formulaire ouvre le logiciel de courriel du visiteur.
+- Test du 2026-10-10 : demande reçue à info@, « Répondre » vers le visiteur, DKIM et SPF valides. Gmail la classe dans l'onglet « Mises à jour ».
 
 ### Questions ouvertes
 

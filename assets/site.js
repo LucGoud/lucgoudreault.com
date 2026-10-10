@@ -61,19 +61,19 @@
 
   function parCourriel(data) {
     var get = function (k) { return (data.get(k) || "").toString().trim(); };
-    var type = get("type") || t.defaut;
-    var entreprise = get("entreprise");
+    var type = get("Offre visée") || t.defaut;
+    var entreprise = get("Entreprise");
     var lignes = [
-      t.nom + t.sep + get("nom"),
+      t.nom + t.sep + get("Nom"),
       t.courriel + t.sep + get("email"),
       t.entreprise + t.sep + entreprise,
-      t.role + t.sep + (get("role") || t.vide),
-      t.taille + t.sep + (get("taille") || t.vide),
+      t.role + t.sep + (get("Rôle") || t.vide),
+      t.taille + t.sep + (get("Employés") || t.vide),
       t.type + t.sep + type,
-      t.echeance + t.sep + (get("echeance") || t.vide),
+      t.echeance + t.sep + (get("Échéance") || t.vide),
       "",
       t.enjeu + t.sep.trimEnd(),
-      get("enjeu")
+      get("Enjeu")
     ];
     var sujet = type + (entreprise ? " (" + entreprise + ")" : "");
     window.location.href = "mailto:" + form.dataset.to +
@@ -91,9 +91,9 @@
 
     if (!endpoint) { parCourriel(data); dire(t.mailto); return; }
 
-    var entreprise = (data.get("entreprise") || "").toString().trim();
-    data.append("langue", anglais ? "en" : "fr");
-    data.append("_subject", (data.get("type") || t.defaut) + (entreprise ? " (" + entreprise + ")" : ""));
+    var entreprise = (data.get("Entreprise") || "").toString().trim();
+    data.append("Langue", anglais ? "EN" : "FR");
+    data.append("_subject", (data.get("Offre visée") || t.defaut) + (entreprise ? " (" + entreprise + ")" : ""));
     if (bouton) bouton.disabled = true;
     dire(t.envoi);
     fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } })
