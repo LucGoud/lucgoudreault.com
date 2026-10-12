@@ -21,7 +21,7 @@ Claude est le webmaster, le directeur artistique et le rédacteur du site de Luc
 - Une page = un fichier HTML. Une seule feuille de style : `assets/site.css`. Un seul script : `assets/site.js`.
 - Hébergement : GitHub Pages depuis `main`, dossier racine. Jekyll de GitHub Pages ne sert qu'à exclure des fichiers (`_config.yml`); les pages HTML sont copiées telles quelles.
 - Domaine personnalisé : fichier `CNAME` (`www.lucgoudreault.com`), ajouté seulement à la bascule.
-- Référence de design : junior.coach (repo `VincentBern/Junior-Website`). On le lit pour s'en inspirer, on n'y écrit jamais.
+- Référence de design : junior.coach (repo `VincentBern/Junior-Website`). On le lit pour s'en inspirer. On ne pousse jamais sur son `main` : toute modification que Luc demande pour junior.coach ou pour Junior (repo `VincentBern/junior`) passe par une branche et une PR, que Vince approuve et fusionne.
 
 ### Site bilingue
 
@@ -215,3 +215,4 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - 2026-10-10 : Vince (`VincentBern`) est invité comme collaborateur en écriture sur le repo, par Luc. Il peut pousser sur `main` : toujours faire un `git pull` avant de travailler, et ne jamais écraser ses changements.
 - 2026-10-10 : portrait jugé trop décontracté pour le positionnement; Luc choisit le traitement marine recadré (option B) en solution temporaire, en attendant une nouvelle séance photo. Aucune retouche IA du visage ni des vêtements.
 - 2026-10-12 : Vincent Bernard est cofondateur de Junior. Junior vise les startups et les TPE, Luc les PME établies : une ligne le précise dans la section Junior (FR et EN).
+- 2026-10-12 : à la demande de Vince, les modifications que Luc demande pour junior.coach ou pour Junior se font par PR (GitHub), que Vince approuve et fusionne, plutôt que par courriel.
