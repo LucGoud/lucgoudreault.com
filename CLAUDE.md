@@ -151,7 +151,8 @@ Aperçu local : `python3 scripts/serve.py` puis http://localhost:8000/.
 - **Aucun mandat passé ni client nommé sur le site**, et aucun témoignage pour l'instant. Si un témoignage revient, Luc le fournit et confirme l'accord de la personne.
 - **Rôle actuel nommé** : Luc est aviseur pour Innoptech. C'est un rôle actuel, pas un mandat passé : il figure dans le parcours de l'accueil (« Gouvernance : Aviseur, Innoptech » / « Governance: Advisor, Innoptech »), sans autre détail.
 - **Pas de conditions ni de grille de rémunération sur le site.** Chaque engagement est défini par écrit. Le modèle FAST du Founder Institute (entente d'aviseur rémunéré en équité, selon le stade de la startup et le niveau d'engagement) peut servir dans une proposition écrite à une startup, jamais sur le site : il vise les startups, pas les PME établies qui sont la cible.
-- Luc est le **fondateur de Junior** (junior.coach). C'est visible dès l'accueil (cartouche de l'en-tête et lien « Junior » dans le nav) et Junior a sa section dédiée (`#junior`). Lien : `https://www.junior.coach/`.
+- Luc est le **fondateur de Junior** (junior.coach), avec Vincent Bernard comme cofondateur. C'est visible dès l'accueil (cartouche de l'en-tête et lien « Junior » dans le nav) et Junior a sa section dédiée (`#junior`). Lien : `https://www.junior.coach/`.
+- **Clientèles distinctes** : Junior s'adresse aux startups et aux TPE; les engagements de Luc visent les PME établies. La section Junior le dit en une ligne, pour qu'on ne lise pas Junior comme une version moins chère de Luc.
 - **Aucune rencontre gratuite.** Jamais de « premier échange gratuit », de « diagnostic gratuit », de « free consultation » ni de bouton de réservation d'agenda. L'appel à l'action est « Prendre contact » / « Get in touch » et mène au formulaire qualifié.
 - **On n'invente rien** : ni titre, ni certification, ni siège, ni chiffre, ni témoignage, ni client. Une info manque? On la demande à Luc.
 
@@ -213,3 +214,4 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - 2026-10-10 : bascule du domaine approuvée et faite (Framer vers GitHub Pages), y compris GoDaddy.
 - 2026-10-10 : Vince (`VincentBern`) est invité comme collaborateur en écriture sur le repo, par Luc. Il peut pousser sur `main` : toujours faire un `git pull` avant de travailler, et ne jamais écraser ses changements.
 - 2026-10-10 : portrait jugé trop décontracté pour le positionnement; Luc choisit le traitement marine recadré (option B) en solution temporaire, en attendant une nouvelle séance photo. Aucune retouche IA du visage ni des vêtements.
+- 2026-10-12 : Vincent Bernard est cofondateur de Junior. Junior vise les startups et les TPE, Luc les PME établies : une ligne le précise dans la section Junior (FR et EN).
