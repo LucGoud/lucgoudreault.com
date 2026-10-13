@@ -21,7 +21,7 @@ Claude est le webmaster, le directeur artistique et le rédacteur du site de Luc
 - Une page = un fichier HTML. Une seule feuille de style : `assets/site.css`. Un seul script : `assets/site.js`.
 - Hébergement : GitHub Pages depuis `main`, dossier racine. Jekyll de GitHub Pages ne sert qu'à exclure des fichiers (`_config.yml`); les pages HTML sont copiées telles quelles.
 - Domaine personnalisé : fichier `CNAME` (`www.lucgoudreault.com`), ajouté seulement à la bascule.
-- Référence de design : junior.coach (repo `VincentBern/Junior-Website`). On le lit pour s'en inspirer. On ne pousse jamais sur son `main` : toute modification que Luc demande pour junior.coach ou pour Junior (repo `VincentBern/junior`) passe par une branche et une PR, que Vince approuve et fusionne.
+- Référence de design : junior.coach (repo `VincentBern/Junior-Website`). On le lit pour s'en inspirer. On ne pousse jamais sur son `main` : toute modification que Luc demande pour junior.coach ou pour Junior (repo `VincentBern/junior`) passe par une branche et une PR, avec Vince (`VincentBern`) demandé en relecture (reviewer) dès l'ouverture, qu'il approuve et fusionne.
 
 ### Site bilingue
 
@@ -218,3 +218,4 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - 2026-10-12 : Vincent Bernard est cofondateur de Junior. Junior vise les startups et les TPE, Luc les PME établies : une ligne le précise dans la section Junior (FR et EN).
 - 2026-10-12 : à la demande de Vince, les modifications que Luc demande pour junior.coach ou pour Junior se font par PR (GitHub), que Vince approuve et fusionne, plutôt que par courriel.
 - 2026-10-13 : « un mandat, pas un abonnement » retiré partout (site et LinkedIn), remplacé par la phrase de junior.coach. Sur junior.coach, « stratégie go-to-market » remplace « aller-marché » (PR #13).
+- 2026-10-13 : toujours demander la relecture de Vince (`VincentBern`) dans les PR des repos `junior` et `Junior-Website`. La règle est aussi dans leurs CLAUDE.md (PR #13 de Junior-Website, PR #11 de junior).
