@@ -55,8 +55,10 @@ _config.yml           Fichiers exclus de la publication
 scripts/serve.py      Aperçu local qui imite GitHub Pages
 scripts/verifier.py   Vérifications avant chaque push
 scripts/og.html, og-en.html, og.py   Gabarits et rendu des images de partage
+scripts/signature.py  Rendu de la marque de la signature courriel
+assets/signature/     Marque de la signature courriel (publiée : Gmail la charge par son URL)
 archive/              Ancien site Framer, copié tel quel, jamais publié
-docs/                 Documents de travail (sauvegarde DNS avant bascule), jamais publiés
+docs/                 Documents de travail (sauvegarde DNS avant bascule, signatures courriel), jamais publiés
 ```
 
 ### Adresses et liens
@@ -192,6 +194,19 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - **Boutons** : un verbe qui dit ce qui arrive (« Prendre contact », « Voir les offres », « Get in touch »), sans flèche ajoutée.
 - **Accessibilité** : contraste AA, focus visible, lien d'évitement, `alt` sur toute image, labels sur tous les champs, `lang` sur les liens vers l'autre langue.
 
+## Signature courriel
+
+La signature de info@lucgoudreault.com suit la même marque que le site. Sources dans `docs/signature/` (HTML compatible courriel : tableaux, styles en ligne, aucune feuille de style), entre les commentaires `SIGNATURE:DEBUT` et `SIGNATURE:FIN`.
+
+- `signature-fr.html` : nouveaux courriels (bande marine avec la marque, rangées de cartouche, pied « Luc Goudreault Stratégie inc. · Québec »). `signature-en.html` : même gabarit en anglais.
+- `signature-fr-reponses.html` et `signature-en-replies.html` : réponses et transferts, compactes et sans image.
+- Dans Gmail : « Signature FR » par défaut pour les nouveaux courriels, « Signature FR (réponses) » par défaut pour les réponses; les versions EN se choisissent dans le menu des signatures du message.
+- La marque est `assets/signature/marque.png` (132 px, affichée à 44 px), rendue depuis `assets/favicon.svg` par `scripts/signature.py`. Elle doit rester à cette adresse : les courriels déjà envoyés la chargent par son URL.
+- Contenu : nom, « Administrateur de sociétés et conseiller stratégique de dirigeants », « Ex-CEO · Fondateur de Junior », cellulaire +1 581 981-1125, info@lucgoudreault.com, liens vers lucgoudreault.com, junior.coach et LinkedIn. Aucune mention de Machitech avant l'annonce officielle.
+- Couleurs : texte posé sur un fond explicite (marine ou feuille) dans la version complète; dans les réponses, le nom n'a pas de couleur (il suit le lecteur) et les tons gris `#6B7380` et or `#8C6B1F` restent lisibles en mode clair comme en mode sombre.
+- Polices : les clients courriel ne chargent pas Archivo ni IBM Plex; elles restent en tête de liste, suivies des replis (Arial Narrow, Helvetica Neue, Arial; Menlo, Consolas, Courier New).
+- Toute modification se fait dans les quatre fichiers, puis on la réinstalle dans Gmail (Paramètres, Général, Signature).
+
 ## Rédaction
 
 - Français québécois et **vouvoiement** partout. Anglais canadien (*rigour*, *organization*) pour `/en/`, ton équivalent : direct, pas une traduction mot à mot.
@@ -220,3 +235,4 @@ Même famille visuelle que junior.coach (langage de plan d'architecte), avec l'i
 - 2026-10-13 : « un mandat, pas un abonnement » retiré partout (site et LinkedIn), remplacé par la phrase de junior.coach. Sur junior.coach, « stratégie go-to-market » remplace « aller-marché » (PR #13).
 - 2026-10-13 : toujours demander la relecture de Vince (`VincentBern`) dans les PR des repos `junior` et `Junior-Website`. La règle est aussi dans leurs CLAUDE.md (PR #13 de Junior-Website, PR #11 de junior).
 - 2026-10-13 : nouvelle accroche, choisie par Luc : « Un ex-CEO à votre table. Avec vous, de la décision à l'exécution. » (EN : « A former CEO at your table. With you, from decision to execution. »). Elle remplace « Pas un rapport de plus », qui se définissait par la négative. L'idée : Luc n'est pas seulement un administrateur qui vote; il sait comment une décision se prend, se communique et s'implante. Pas de « aider » (ça le place en soutien plutôt qu'en pair).
+- 2026-10-15 : nouvelle signature courriel pour info@lucgoudreault.com, alignée sur la marque du site (section « Signature courriel »), approuvée par Luc. Elle remplace « Consultant en croissance stratégique » et l'ancienne bannière.
