@@ -20,7 +20,7 @@ import threading
 RACINE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOMAINE = "https://www.lucgoudreault.com/"
 EXCLUS_PUBLICATION = {"guide-de-style.html"}   # pages de travail, jamais publiées (voir _config.yml)
-DOSSIERS_EXCLUS = ("archive", "scripts", ".git")
+DOSSIERS_EXCLUS = ("archive", "scripts", "docs", ".git")   # docs : signatures courriel et documents de travail, jamais publiés
 CADRATIN = chr(0x2014)
 
 # Expressions interdites dans le texte visible et les métadonnées (minuscules)
